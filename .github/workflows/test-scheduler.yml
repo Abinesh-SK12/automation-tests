@@ -1,0 +1,15 @@
+# File: .github/workflows/test-scheduler.yml
+
+name: Cron Test
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Every 5 minutes
+
+jobs:
+  say-time:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Say the current time
+        run: echo "🕒 Cron job triggered at $(date)"
+

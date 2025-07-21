@@ -1,0 +1,41 @@
+name: Run Tests and Notify Slack
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-and-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        id: tests
+        run: |
+          set +e
+          npm test
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "${{ steps.tests.outputs.exit_code }}" == "0" ]; then
+            STATUS=":white_check_mark: Tests passed!"
+          else
+            STATUS=":x: Tests failed!"
+          fi
+          PAYLOAD="{'text': '*GitHub Actions Test Result*\nRepo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nResult: $STATUS\nRun: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'}"
+          curl -X POST -H 'Content-type: application/json' --data "$PAYLOAD" $SLACK_WEBHOOK_URL

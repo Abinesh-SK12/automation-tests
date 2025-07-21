@@ -1,0 +1,31 @@
+{
+  "name": "automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run --record -- parallel--key 2f0b3c1d-8e4f-4a5b-9c6d-7e8f9a0b1c2d"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abinjersha1221/automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abinjersha1221/automation/issues"
+  },
+  "homepage": "https://github.com/abinjersha1221/automation#readme",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "cypress": "^14.4.1",
+    "cypress-iframe": "^1.0.1",
+    "cypress-real-events": "^1.14.0",
+    "latest": "^0.2.0"
+  },
+  "description": ""
+}
